@@ -1,0 +1,87 @@
+<script>
+(function ($){
+
+      $.fn.counter = function() {
+        const $this = $(this),
+        numberFrom = parseInt($this.attr('data-from')),
+        numberTo = parseInt($this.attr('data-to')),
+        delta = numberTo - numberFrom,
+        deltaPositive = delta > 0 ? 1 : 0,
+        time = parseInt($this.attr('data-time')),
+        changeTime = 10;
+
+        let currentNumber = numberFrom,
+        value = delta*changeTime/time;
+        var interval1;
+        const changeNumber = () => {
+          currentNumber += value;
+          //checks if currentNumber reached numberTo
+          (deltaPositive && currentNumber >= numberTo) || (!deltaPositive &&currentNumber<= numberTo) ? currentNumber=numberTo : currentNumber;
+          this.text(parseInt(currentNumber));
+          currentNumber === numberTo ? clearInterval(interval1) : currentNumber;
+        }
+
+        interval1 = setInterval(changeNumber,changeTime);
+      }
+    }(jQuery));
+    var runned = false
+    $(document).scroll(function(){
+        if (runned === false){
+      $('.count-up').counter();
+      $('.count1').counter();
+      $('.count2').counter();
+      runned = true
+      new WOW().init();
+
+      setTimeout(function () {
+        $('.count5').counter();
+      }, 3000);
+      }
+    });
+</script>
+
+<div id="about_page" class="container">
+    <h3 class="font-weight-bold text-center dark-grey-text pb-2">Rólunk</h3>
+
+    <p class="lead text-center text-muted pt-2 mb-5">
+        Lorem ipsum dolor sit amet, utamur gloriatur eloquentiam an sit, ex eum eros percipitur. Lorem dicunt veritus vix et. His in elit voluptatibus, ne vim laudem fierent quaerendum, has at erroribus salutatus concludaturque. Vidisse postulant te sea, et vix rebum quaestio. Ius liber fuisset dissentias ei, cu nec quas explicari, quis agam ex qui.
+        Ad nec detracto fabellas mnesarchum, vix ad blandit oporteat. An per aliquid admodum, et bonorum constituto mediocritatem has. Ignota dolores molestie te cum, ea ullum quando nostro nec, ne vidit qualisque quo. Tale phaedrum ad eum, no lorem graecis nominavi mel. Labitur volutpat theophrastus eu has. Sed id wisi eius mutat, in qui justo sanctus definiebas, eum ad tota everti.
+        Aeque impedit per ea. Sit facilisis argumentum ne. Sed illud dicunt appetere cu, ei eum alienum voluptaria dissentiet. Quot ludus vivendo ut nec, nec id duis utamur. Vix noluisse consetetur ea. Id eam nominavi percipitur comprehensam, an choro percipit per.
+        An dicat utroque mei, per an zril aperiri ornatus, lorem commune pericula his an. Cu dicat minimum urbanitas has, eum diceret constituto at, nam ad quod tollit scripserit. Sea utinam fierent ei. At ius veniam tantas equidem, te eos eros commune vituperatoribus. Erat percipit ius te.
+        Tale scriptorem est an, te commodo diceret adipiscing nec. Habeo everti pri in. Eam porro homero delenit te, semper option ea mei. Sale illud postea quo an, eius assum sit et, quis everti legimus has id. At eos nonumes moderatius. Vim in suas commune vivendum.
+    </p>
+</div>
+
+<!--Lufitorony: Számokban-->
+<div class="container my-5 z-depth-1 px-0 rounded">
+    <section class="p-5 rounded" style="color: darkslategrey">
+        <h3 class="text-center font-weight-bold mb-4 pb-2">Lufitorony számokban:</h3>
+        <div class="row">
+            <div class="col-md-6 mb-6" style="margin-top: 15px">
+                <div class="row">
+                    <div class="col-6 pr-0">
+                        <h4 class="display-4 text-right mb-0 count1" data-from="0" data-to="877" data-time="2000">3,500</h4>
+                    </div>
+
+                    <div class="col-6">
+                        <p class="text-uppercase font-weight-normal mb-1">Vásárló</p>
+                        <p class="mb-0"><i class="fas fa-user fa-2x mb-0"></i></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-6" style="margin-top: 15px">
+                <div class="row">
+                    <div class="col-6 pr-0">
+                        <h4 class="display-4 text-right"><span class="d-flex justify-content-end"><span class="count2" data-from="0" data-to="100" data-time="2000">0</span> %</span></h4>
+                    </div>
+
+                    <div class="col-6">
+                        <p class="text-uppercase font-weight-normal mb-1">Elégedetség</p>
+                        <p class="mb-0"><i class="fas fa-smile fa-2x mb-0"></i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
