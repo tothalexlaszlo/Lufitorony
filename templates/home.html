@@ -4,7 +4,7 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
-    <div class="view jarallax" data-jarallax='{"speed": 0.2}' style="background-image: url({% static 'img/Photo by Sagar Patil on Unsplash.jpg' %}); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+    <div id="home" class="view jarallax" data-jarallax='{"speed": 0.2}' style="background-image: url({% static 'img/Photo by Sagar Patil on Unsplash.jpg' %}); background-repeat: no-repeat; background-size: cover; background-position: center center;">
           <div class="mask rgba-white-light">
             <div class="container h-100 d-flex justify-content-center align-items-center">
               <div class="row pt-5 mt-3">
@@ -14,7 +14,7 @@
                       <a class="indigo-text font-weight-bold">Lufitorony</a>
                     </h1>
                     <h5 class="text-uppercase mb-5 mt-1 font-weight-bold wow fadeInDown" data-wow-delay="0.3s">Minden ami party!</h5>
-                    <a class="btn btn-indigo btn-lg wow fadeInDown" data-wow-delay="0.3s">Shop</a>
+                    <a class="btn btn-indigo btn-lg wow fadeInDown" data-wow-delay="0.3s" href="{% url 'shop:product_list' %}">Shop</a>
                   </div>
                 </div>
               </div>
@@ -26,5 +26,5 @@
     {% include '_counter.html' %}
     {% include '_cards.html' %}
     {% include 'contact.html' %}
-    {% include '_footer.html' %}
+
 {% endblock content %}

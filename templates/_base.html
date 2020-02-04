@@ -21,8 +21,9 @@
         {% include '_navbar.html' %}
 
         {% block content %}
-        {% endblock content %}
 
+        {% endblock content %}
+        {% include '_footer.html' %}
         <script type="text/javascript" src="{% static 'js/popper.min.js'%}"></script>
         <script type="text/javascript" src="{% static 'js/bootstrap.min.js'%}"></script>
         <script type="text/javascript" src="{% static 'js/mdb.min.js'%}"></script>

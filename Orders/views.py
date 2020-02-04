@@ -3,30 +3,35 @@ from django.contrib.admin.views.decorators import staff_member_required
 from .models import OrderItem, Order
 from .forms import OrderCreateForm
 from Cart.cart import Cart
+from django.urls import reverse_lazy
 
 
 def order_create(request):
     cart = Cart(request)
+    if len(cart) != 0:
+        if request.method == 'POST':
+            form = OrderCreateForm(request.POST)
+            if form.is_valid():
+                order = form.save()
+                for item in cart:
+                    OrderItem.objects.create(order=order,
+                                             product=item['product'],
+                                             price=item['price'],
+                                             quantity=item['quantity'])
+                cart.clear()
+                return render(request,
+                              'orders/order_created.html',
+                              {'order': order})
+        else:
+            form = OrderCreateForm()
 
-    if request.method == 'POST':
-        form = OrderCreateForm(request.POST)
-        if form.is_valid():
-            order = form.save()
-            for item in cart:
-                OrderItem.objects.create(order=order,
-                                         product=item['product'],
-                                         price=item['price'],
-                                         quantity=item['quantity'])
-            cart.clear()
-            return render(request,
-                          'orders/order_created.html',
-                          {'order': order})
+        return render(request,
+                      'orders/order_create.html',
+                      {'cart': cart, 'form': form})
     else:
-        form = OrderCreateForm()
-
-    return render(request,
-                  'orders/order_create.html',
-                  {'cart': cart, 'form': form})
+        request.session.flush()
+        request.session.modified = True
+        return render(request, 'home.html')
 
 
 @staff_member_required

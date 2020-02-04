@@ -1,0 +1,157 @@
+{% extends "_base.html" %}
+
+{% block title %}
+Checkout
+{% endblock %}
+
+{% block content %}
+ <!--Main layout-->
+  <main class="mt-5 pt-4">
+    <div class="container wow fadeIn">
+
+      <!-- Heading -->
+      <h2 class="my-5 h2 text-center">Rendelés véglegesítése</h2>
+
+      <!--Grid row-->
+      <div class="row">
+
+
+        <!--Grid column-->
+        <div class="col-md-8 mb-4">
+
+          <!--Card-->
+          <div class="card" style="padding: 0px 20px">
+
+            <!--Card content-->
+            <form class="card-body" action="." method="post">{% csrf_token %}
+{#                {{ form.as_p }}#}
+              <!--Grid row-->
+              <div class="row">
+
+                <!--Grid column-->
+                <div class="col-md-6 mb-2">
+
+                                      <!--lastName-->
+                  <div class="md-form">
+                    <input name="{{ form.last_name.html_name }}" type="text" id="lastName" class="form-control">
+                    <label for="lastName" class="">Vezetéknév</label>
+                  </div>
+
+
+                </div>
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-md-6 mb-2">
+                                      <!--firstName-->
+                  <div class="md-form ">
+                    <input name="{{ form.first_name.html_name }}" type="text" id="firstName" class="form-control">
+                    <label for="firstName" class="">Keresztnév</label>
+                  </div>
+
+
+                </div>
+                <!--Grid column-->
+
+              </div>
+              <!--Grid row-->
+
+
+              <div class="md-form mb-5">
+                <input type="text" name="{{ form.email.html_name }}" id="email" class="form-control" placeholder="">
+                <label for="email" class="">Email</label>
+              </div>
+
+
+              <div class="md-form mb-5">
+                <input name="{{ form.postal_code.html_name }}" type="text" id="address" class="form-control" placeholder="">
+                <label for="address" class="">Irányítószám</label>
+              </div>
+
+
+              <div class="md-form mb-5">
+                <input name="{{ form.city.html_name }}" type="text" id="address-2" class="form-control" placeholder="">
+                <label for="address-2" class="">Város</label>
+              </div>
+
+                <div class="md-form mb-5">
+                    <input name="{{ form.address.html_name }}" type="text" id="address-2" class="form-control" placeholder="">
+                    <label for="address-2" class="">Cím</label>
+                </div>
+                <!--Grid row-->
+                <div class="row">
+
+                <!--Grid column-->
+                <div class="col-lg-4 col-md-12 mb-4">
+
+
+                </div>
+              </div>
+
+              <hr class="mb-4">
+
+              <button class="btn btn-primary btn-lg btn-block" type="submit" style="margin-bottom: 10px">Megrendelem</button>
+
+            </form>
+
+          </div>
+          <!--/.Card-->
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-md-4 mb-4">
+
+          <!-- Heading -->
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted">Kosár tartalma</span>
+            <span class="badge badge-secondary badge-pill">{{ cart|length }}</span>
+          </h4>
+
+          <!-- Cart -->
+            <ul class="list-group mb-3 z-depth-1">
+                {% for item in cart %}
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">{{ item.product.name }}</h6>
+                            <small class="text-muted">{{ item.quantity }} Db</small>
+                        </div>
+                        <span class="text-muted">{{ item.total_price }}</span>
+                    </li>
+                {% endfor %}
+
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Összesen</span>
+              <strong>{{ cart.get_total_price }} Ft</strong>
+            </li>
+          </ul>
+          <!-- Cart -->
+
+
+        </div>
+      </div>
+    </div>
+  <script>
+      (function($) {
+          $.fn.inputFilter = function(inputFilter) {
+              return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
+                  if (inputFilter(this.value)) {
+                      this.oldValue = this.value;
+                      this.oldSelectionStart = this.selectionStart;
+                      this.oldSelectionEnd = this.selectionEnd;
+                  } else if (this.hasOwnProperty("oldValue")) {
+                      this.value = this.oldValue;
+                      this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                  } else {
+                      this.value = "";
+                  }
+              });
+          };
+      }(jQuery));
+      $("#address").inputFilter(function(value) {
+          return /^-?\d*$/.test(value); });
+  </script>
+
+  </main>
+{% endblock %}

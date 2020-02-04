@@ -1,0 +1,142 @@
+{% extends "_base.html" %}
+{% load static %}
+
+{% block title %}
+    Kosár
+{% endblock %}
+
+{% block content %}
+
+<main>
+
+    <!-- Main Container -->
+    <div class="container" style="margin-top: 80px">
+
+      <section class="section my-5 pb-5">
+
+        <!-- Shopping Cart table -->
+        <div class="table-responsive">
+
+          <table class="table product-table">
+
+            <!-- Table head -->
+            <thead>
+              <tr>
+                <th></th>
+                <th class="font-weight-bold">
+                  <strong>Termék</strong>
+                </th>
+                <th></th>
+                <th class="font-weight-bold">
+                  <strong>Ár</strong>
+                </th>
+                <th class="font-weight-bold">
+                  <strong>Mennyiség</strong>
+                </th>
+                <th class="font-weight-bold">
+                  <strong>Összeg</strong>
+                </th>
+                <th></th>
+              </tr>
+            </thead>
+            <!-- /.Table head -->
+
+            <!-- Table body -->
+              <tbody>
+              {% for item in cart %}
+                  {% with product=item.product %}
+                      <tr>
+                          <th scope="row">
+                              <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" alt="" class="img-fluid z-depth-0">
+                          </th>
+                          <td>
+                              <h5 class="mt-3">
+                                  <strong>{{ product.name }}</strong>
+                              </h5>
+                              <p class="text-muted">Apple</p>
+                          </td>
+                          <td></td>
+                          <td>{{ item.price }} Ft</td>
+
+
+{#                       <form action="{% url "cart:cart_add" product.id %}" method="post">#}
+{#                                {{ item.update_quantity_form.quantity }}#}
+{#                                {{ item.update_quantity_form.update }}#}
+{#                                <input type="submit" value="Update">#}
+{#                                {% csrf_token %}#}
+{#                       </form>#}
+
+
+                          <td class="text-center text-md-left">
+                              <form action="{% url "cart:cart_add" product.id %}" method="post" style="text-align: center">
+                                  {% csrf_token %}
+                                  <span class="qty"> {{ item.update_quantity_form.quantity.value }} {{ item.update_quantity_form.update }} Db</span>
+{#                                  <div class="btn-group radio-group ml-2" data-toggle="buttons">#}
+{#                                      <label class="btn btn-sm btn-primary btn-rounded waves-effect waves-light">#}
+{#                                          <input type="radio" name="quantity" id="option1">—#}
+{#                                      </label>#}
+{#                                      <label class="btn btn-sm btn-primary btn-rounded waves-effect waves-light">#}
+{#                                          <input type="radio" name="quantity" id="option2">+#}
+{#                                      </label>#}
+{#                                  </div>#}
+                              </form>
+                          </td>
+
+
+
+
+
+
+                          <td class="font-weight-bold">
+                              <strong>{{ item.total_price }} Ft</strong>
+                          </td>
+                          <td>
+                              <a href="{% url "cart:cart_remove" product.id %}">
+                                  <button type="button" class="btn btn-sm btn-primary waves-effect waves-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="Remove item">X
+                                  </button>
+                              </a>
+                          </td>
+                      </tr>
+                  {% endwith %}
+            {% endfor %}
+              <!-- /.First row -->
+
+
+              <!-- Fourth row -->
+              <tr>
+                <td colspan="3"></td>
+                <td>
+                  <h4 class="mt-2">
+                    <strong>Végösszeg</strong>
+                  </h4>
+                </td>
+                <td class="text-right">
+                  <h4 class="mt-2">
+                    <strong>{{ cart.get_total_price}} Ft</strong>
+                  </h4>
+                </td>
+                <td colspan="3" class="text-right">
+                    <a href="{% url "orders:order_create" %}" class="button">
+                      <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light">Megrendelés
+                        <i class="fas fa-angle-right right"></i>
+                      </button>
+                    </a>
+                </td>
+              </tr>
+              <!-- Fourth row -->
+
+            </tbody>
+            <!-- /.Table body -->
+
+          </table>
+
+        </div>
+        <!-- Shopping Cart table -->
+
+      </section>
+
+    </div>
+    <!-- /Main Container -->
+
+  </main>
+{% endblock %}

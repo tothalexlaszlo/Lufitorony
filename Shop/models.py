@@ -1,5 +1,8 @@
 from django.db import models
 from django.urls import reverse
+from django.db.models.signals import post_delete
+
+import os
 
 
 class Category(models.Model):
@@ -22,7 +25,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE, verbose_name='Kategória')
     name = models.CharField('Név', max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)
-    image = models.ImageField('Kép', upload_to='products/%Y/%m/%d', blank=True)
+    image = models.ImageField('Kép', upload_to='products/{}'.format(name), blank=True)
     description = models.TextField('Leírás', blank=True)
     price = models.DecimalField('Ár', max_digits=10, decimal_places=0)
     available = models.BooleanField('Elérhető', default=True)
@@ -38,3 +41,10 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('shop:product_detail', args=[self.id, self.slug])
+
+
+def file_cleanup(sender, instance, **kwargs):
+    os.remove(instance.image.path)
+
+
+post_delete.connect(file_cleanup, sender=Product)

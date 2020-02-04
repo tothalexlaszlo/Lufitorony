@@ -14,31 +14,33 @@
             <!-- Left -->
             <ul class="smooth-scroll navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="{% url 'home' %}">Kezdőlap
+                    <a class="nav-link waves-effect" href="#home">Kezdőlap
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="" >Termékek</a>
+                    <a class="nav-link waves-effect" href="{% url 'shop:product_list' %}" >Termékek</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="#services_page" >Szolgáltatások</a>
+                    <a class="nav-link waves-effect" href="{% if request.get_full_path == '' %}#services_page{% else %}{% url 'home' %}#services_page{% endif %}">Szolgáltatások</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="#about_page">Rólunk</a>
+                    <a class="nav-link waves-effect" href="{% url 'home' %}#about_page">Rólunk</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="#contact_page">Kapcsolat</a>
+                    <a class="nav-link waves-effect" href="{% url 'home' %}#contact_page">Kapcsolat</a>
                 </li>
             </ul>
             <!-- Right -->
             <ul class="navbar-nav nav-flex-icons">
                 <li class="nav-item">
-                    <a class="nav-link waves-effect">
-                        <span class="badge red z-depth-1 mr-1"> 1 </span>
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="clearfix d-none d-sm-inline-block"> Cart </span>
-                    </a>
+                    {% with total_items=cart|length %}
+                            <a class="nav-link waves-effect" href="{% url "cart:cart_detail" %}">
+                                <span class="badge red z-depth-1 mr-1"> {{ total_items }} </span>
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="clearfix d-none d-sm-inline-block"> Kosár </span>
+                            </a>
+                     {% endwith %}
                 </li>
                 <li class="nav-item">
                     <a href="https://www.facebook.com/Lufitorony-492391834608486/" class="nav-link waves-effect" target="_blank">
